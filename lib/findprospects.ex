@@ -1,9 +1,9 @@
 defmodule Findprospects do
-  @cse_id "013762905797904918430:uayxiyco3la"
-  @api_key "AIzaSyDsCVjVErapNdDkG5ndv5lwAE9bCM7a-l4"
+	@cse_id "013762905797904918430:uayxiyco3la"
+	@api_key "AIzaSyDsCVjVErapNdDkG5ndv5lwAE9bCM7a-l4"
 	@query_string "employee%20benefits%20fair%20-plan%20-planning"
 	@default_date_range "w4" #Last 4 weeks
-  @initial_search_index 1
+	@initial_search_index 1
   
 	@cse_rest_base "https://www.googleapis.com/customsearch/v1?key=#{@api_key}&cx=#{@cse_id}&q=#{@query_string}&dateRestrict=#{@default_date_range}"
 
@@ -38,14 +38,12 @@ defmodule Findprospects do
 		[{"htmlTitle",_htmlTitle} | _t] = _t
 		[{"link",_link} | _t] = _t
 		[_displayLink | _t] = _t
-		[_snippet | _t] = _t
+		[{"snippet",_snippet} | _t] = _t
 		[_htmlSnippet | _t] = _t
 		[{"cacheId",_cacheId} | _t] = _t
 		[_formattedUrl | _t] = _t
 		[_htmlFormattedUrl | _t] = _t
 		[_pagemap | _t] = _t
-		{_htmlTitle,_link,_cacheId}
+		{_htmlTitle,_snippet,_link,_cacheId}
 	end
-		
-
 end
