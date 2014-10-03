@@ -8,6 +8,16 @@ defmodule Findprospects do
   
 	@cse_rest_base "https://www.googleapis.com/customsearch/v1?key=#{@api_key}&cx=#{@cse_id}&q=#{@query_string}&dateRestrict=#{@default_date_range}"
 
+	defmacro get_json_element(elementname) when is_bitstring(elementname) do
+		varname = "_" <> elementname
+		funcname = "get" <> varname
+		quote do
+			IO.puts "defp " <> unquote(funcname) <> "([{\"" <> unquote(elementname) <> "\"," <> unquote(varname) <> "} | _tail]), do: " <> unquote(varname)
+ 			IO.puts "defp " <> unquote(funcname) <> "([_head | _tail]), do: " <> unquote(funcname) <> "(_tail)"
+			IO.puts "defp " <> unquote(funcname) <> "([]), do: nil"
+		end
+	end
+
 	def get_custom_search_results(initial_index) do
 		l = get_next_ten_search_results(initial_index)
 		|> decode_json_results
@@ -37,11 +47,11 @@ defmodule Findprospects do
 #	defp get_json_element([_h | _t]), do: get_json_element(_t)
 #	defp get_json_element([]), do: ""
 
-
 	defp get_html_title([{"htmlTitle",_html_title} | _t]), do: _html_title
 	defp get_html_title([_h | _t]), do: get_html_title(_t)
 	defp get_html_title([]), do: ""
 
+#	Findprospects.get_json_element("link")
 	defp get_link([{"link",_link} | _t]), do: _link
 	defp get_link([_h | _t]), do: get_link(_t)
 	defp get_link([]), do: ""
